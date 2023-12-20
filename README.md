@@ -1,3 +1,3 @@
-# auto_attack1999
+# Cobat_simulation1999
 为了模拟未来1999年的战斗，计算考量自NGA风焰；
 目前仍在开发中，尚未完成
