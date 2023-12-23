@@ -1,25 +1,32 @@
-#pragma once
+
 #include<iostream>
 #include<random>
+#include <fstream>
+using namespace std;
 
 #define Technique 1 //术法
 #define Ritual 0 //仪式
 #define Orgin 2 //本源
 #define Realistic 1 //现实
 #define Mental 0 //精神
-#define Tree 0 //木
-#define Animal 1 //兽
-#define Stone 2 //岩
-#define Star 3 //星
-#define	Quick 7 //灵
-#define Wisdom 17 //智
+#define Sum_property 20 //属性数量
 
-#define Sum_property 19
+//#define Tree 0 //木
+//#define Animal 1 //兽
+//#define Stone 2 //岩
+//#define Star 3 //星
+//#define	Quick 7 //灵
+//#define Wisdom 17 //智
+enum fnpc_propertys{ Tree, Animal, Stone, Star, Quick = 10, Wisdom };
 
-using namespace std;
+extern void* npc_attack; //攻击者
+extern void* npc_beattack; //受攻击者
+extern random_device rd;
+extern minstd_rand0 get_randomss;//初始化随机数
+
 
 typedef struct __property {
-	float npc_property = 0; //角色系 0
+	fnpc_propertys npc_property = Quick; //角色系 0
 	float attack = 0; //攻击 1
 	float life = 0; //生命上限 2
 	float realistic_defense = 0; //现实防御 3
@@ -38,6 +45,7 @@ typedef struct __property {
 	float leech_rate = 0; //吸血率 16
 	float trauma_recovery = 0; //受创回复 17
 	float power_orgin = 0; //本源伤害加成 18
+	float coefficient = 1; //比例系数 19
 	/*struct __property copy()
 	{
 		struct __property a;
@@ -70,13 +78,21 @@ union fproperty {
 	fproperty(property __fproperty) { fpropertys = __fproperty; };
 };
 
+enum onset{Not,Begin,After};
 typedef struct __buff {
-	int sum; //层数
-	int id; //格式为三位以上小数，后面俩位用于标记作用的属性
-	void (*p)(); //特殊效果函数，请使用全局变量中的当前伤害者和被伤害者确定使用者和被使用者
+	int sum = 0; //层数
+	int id = 0; //用于检索。
+	int propertys = 0; //标记作用的属性,0代表不更改
+	onset functions = Not; //用于标记函数发动回合（1代表回合开始，2代表回合结束，其他表示不发动）
+	onset passby = After; //用于标记掉层方法
+	float result = 0.0f; //以数值方式修改指定的属性值
+	float s_result = 1.0f; //以百分比方式修改指定的属性值
+	void (*p)(struct __buff* self) = NULL; //特殊效果函数，请使用全局变量中的当前伤害者和被伤害者确定使用者和被使用者
+	struct __buff* next = NULL;
 }buff;
 
-
+void remove_from_bufflist(buff* bufflist, buff* before_bufflist);
+void add_to_bufflist(buff*& bufflist, buff* buffself);
 
 //typedef struct __card {
 //	string name; //卡牌名字
