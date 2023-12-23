@@ -1,6 +1,8 @@
 #pragma once
+#include "card.h"
 #include "head.h"
 #include <fstream>
+#include <array>
 class NPC
 {
 public:
@@ -14,6 +16,8 @@ public:
 	buff*bufflist_workpass; //消耗buff
 	buff* debufflist_timepass; //回合debuff
 	buff* debufflist_workpass; //消耗debuff
+	std::array<CardBase*, 3> skills; // 技能组
+
 	NPC(string names) {
 		name = names;
 		bufflist_timepass = new buff[100];
@@ -35,6 +39,8 @@ public:
 	float critical_check(property& opponent); //攻击暴击运算
 
 	float health_critical_check(); //治疗暴击运算
+
+	void set_skills(std::array<CardBase*, 3> _skills) { skills = _skills; }
 
 };
 
