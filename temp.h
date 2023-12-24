@@ -65,7 +65,7 @@ public:
             exit(-1);
         }
     }
-    auto get_init_tiles()
+    std::vector<CardBase*> get_init_tiles()
     {
         int max_size = get_tiles_max();
         switch(max_size) {
@@ -136,13 +136,13 @@ public:
                     continue;
                 }
                 auto chosen = handtiles->discharge();
-                for(auto [tile, t]: chosen) {
+                for(auto c: chosen) {
                     // world->pre_use(tile, t);
-                    NPC *user = find_user(tile);
+                    NPC *user = find_user(c.first);
                     if(user == nullptr) {
                         continue;
                     }
-                    tile->use(*this, *user, *t);
+                    c.first->use(*this, *user, *c.second);
                     // world->post_use(tile, t);
                 }
                 return true;

@@ -25,8 +25,8 @@ std::string HandTiles::summary()
     std::stringstream ss;
 
     ss << "Chosen:";
-    for(auto [tile, t]: chosen) {
-        ss << '\t' << tile->get_short_name();
+    for(auto c: chosen) {
+        ss << '\t' << c.first->get_short_name();
     }
     ss << '\n';
     

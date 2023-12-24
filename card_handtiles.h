@@ -14,8 +14,8 @@ class HandTiles
     CardBase* request_card(); // 抽一张新牌
     void clear()
     {
-        for(auto [tile, _]: chosen) {
-            delete tile;
+        for(auto c: chosen) {
+            delete c.first;
         }
         for(auto tile: tiles) {
             delete tile;
@@ -53,11 +53,11 @@ public:
         return dup;
     }
 
-    auto get_chosen() // 获取选中的手牌
+    std::vector<std::pair<CardBase*, NPC*>> get_chosen() // 获取选中的手牌
     {
         return chosen;
     }
-    auto discharge() // 释放选中的手牌
+    std::vector<std::pair<CardBase*, NPC*>> discharge() // 释放选中的手牌
     {
         std::vector<std::pair<CardBase*, NPC*>> ret = std::move(chosen);
         chosen.clear();

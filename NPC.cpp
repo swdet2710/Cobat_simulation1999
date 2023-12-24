@@ -1,5 +1,6 @@
 
 #include "NPC.h"
+#include "head.h"
 
 int NPC::combat_readiness()
 {
@@ -35,10 +36,11 @@ int NPC::load_property()
 {
 	ifstream files;
 	int j;
-	files.open(name);
+	
+	files.open(name + ".txt");
 	if (!files.is_open())
 	{
-		cout << "未找到该文件" << endl;
+		cout << "未找到文件: " << name << endl;
 		return 1;
 	}
 	fproperty t(&init_npc_propertys);
@@ -47,7 +49,7 @@ int NPC::load_property()
 	for (int i = 0; i < Sum_property; i++)
 		files >> t.p[i];
 	files.close();
-	cout << t.fpropertys->attack;
+	std::cout << "NPC " << name << " 载入成功, 攻击力: " << npc_propertys.attack << std::endl;
 	return 0;
 }
 
