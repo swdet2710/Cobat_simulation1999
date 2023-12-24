@@ -78,13 +78,13 @@ union fproperty {
 	fproperty(property __fproperty) { fpropertys = __fproperty; };
 };
 
-enum onset{Not,Begin,After};
+enum class onset{Not,Begin,After};
 typedef struct __buff {
 	int sum = 0; //层数
 	int id = 0; //用于检索。
 	int propertys = 0; //标记作用的属性,0代表不更改
-	onset functions = Not; //用于标记函数发动回合（1代表回合开始，2代表回合结束，其他表示不发动）
-	onset passby = After; //用于标记掉层方法
+	onset functions = onset::Not; //用于标记函数发动回合（1代表回合开始，2代表回合结束，其他表示不发动）
+	onset passby = onset::After; //用于标记掉层方法
 	float result = 0.0f; //以数值方式修改指定的属性值
 	float s_result = 1.0f; //以百分比方式修改指定的属性值
 	void (*p)(struct __buff* self) = NULL; //特殊效果函数，请使用全局变量中的当前伤害者和被伤害者确定使用者和被使用者
