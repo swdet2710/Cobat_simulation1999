@@ -19,6 +19,15 @@ int NPC::combat_readiness()
 			next = i->next;
 			delete i;
 		}
+	if (bufflist_byattack != NULL)
+		for (buff* i = bufflist_byattack; i != NULL; i = next)
+		{
+			next = i->next;
+			delete i;
+		}
+	bufflist_byattack = NULL;
+	bufflist_attack = NULL;
+	bufflist_timepass = NULL;
 	return 0;
 }
 
@@ -52,6 +61,14 @@ void NPC::buff_to_property()
 		}
 	}
 
+	for (now = bufflist_byattack, before = NULL; now != NULL; now = now->next)
+	{
+		if (now->propertys)
+		{
+			k.p[now->propertys] = (k.p[now->propertys] + now->result) * now->s_result;
+		}
+	}
+
 	for (now = bufflist_timepass, before = NULL; now != NULL; now = now->next)
 	{
 		if (now->propertys)
@@ -61,14 +78,38 @@ void NPC::buff_to_property()
 	}
 }
 
-void NPC::by_attack(NPC self,NPC opponent)
+void NPC::use_to_attack(NPC self, NPC* opponent,void (*p)(),int sum_of_opponent=1)
+{
+	npc_attack = &self;
+	npc_beattack = opponent;
+	p();
+	buff_attack();
+	for (int i = 0; i < sum_of_opponent; i++)
+		(opponent + i)->by_attack();
+
+}
+
+void NPC::by_attack()
 {
 	buff* before, * now;
-	npc_attack = &opponent;
-	npc_beattack = &self;
-	for (now = bufflist_attack, before = NULL; now != NULL; now = now->next)
+	for (now = bufflist_byattack, before = NULL; now != NULL; now = now->next)
 	{
 		if (now->p!=NULL)
+		{
+			now->p(now);
+			if (now->sum == 0)
+				remove_from_bufflist(now, before);
+		}
+	}
+}
+
+void NPC::buff_attack()
+{
+	buff* before, * now;
+	
+	for (now = bufflist_attack, before = NULL; now != NULL; now = now->next)
+	{
+		if (now->p != NULL)
 		{
 			now->p(now);
 			if (now->sum == 0)
@@ -80,9 +121,9 @@ void NPC::by_attack(NPC self,NPC opponent)
 void NPC::by_timepass()
 {
 	buff *before,*now;
-	for (now = bufflist_attack, before = NULL; now != NULL; now = now->next)
+	for (now = bufflist_timepass, before = NULL; now != NULL; now = now->next)
 	{
-		if(now->functions == After)
+		if(now->functions == onset::After)
 			if (now->p != NULL)
 			{
 				now->p(now);
@@ -93,7 +134,17 @@ void NPC::by_timepass()
 
 	for (now = bufflist_attack, before=NULL; now != NULL; now = now->next)
 	{
-		if (now->passby == After)
+		if (now->passby == onset::After)
+		{
+			now->sum--;
+			if (now->sum == 0)
+				remove_from_bufflist(now, before);
+		}
+		before = now;
+	}
+	for (now = bufflist_byattack, before = NULL; now != NULL; now = now->next)
+	{
+		if (now->passby == onset::After)
 		{
 			now->sum--;
 			if (now->sum == 0)
@@ -103,7 +154,7 @@ void NPC::by_timepass()
 	}
 	for (now = bufflist_timepass, before = NULL; now != NULL; now = now->next)
 	{
-		if (now->passby == After)
+		if (now->passby == onset::After)
 		{
 			now->sum--;
 			if (now->sum == 0)
@@ -120,7 +171,7 @@ void NPC::by_timebegin()
 	buff_to_property();
 	for (now = bufflist_attack, before = NULL; now != NULL; now = now->next)
 	{
-		if (now->passby == Begin)
+		if (now->passby == onset::Begin)
 		{
 			now->sum--;
 			if (now->sum == 0)
@@ -130,7 +181,7 @@ void NPC::by_timebegin()
 	}
 	for (now = bufflist_timepass, before = NULL; now != NULL; now = now->next)
 	{
-		if (now->passby == Begin)
+		if (now->passby == onset::Begin)
 		{
 			now->sum--;
 			if (now->sum == 0)
