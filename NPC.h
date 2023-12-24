@@ -7,6 +7,12 @@ private:
 	string name;
 	property init_npc_propertys; //初始角色属性
 	int load_property(); //从文件载入角色信息
+	
+	
+	void buff_attack(); //攻击时触发
+	float attacks(float attack, property& opponent, int attack_property); //攻防项计算
+	float critical_check(property& opponent); //攻击暴击运算
+public:
 	NPC(string names) {
 		name = names;
 		load_property();
@@ -32,12 +38,6 @@ private:
 				delete i;
 			}
 	}
-	
-	void buff_attack(); //攻击时触发
-	float attacks(float attack, property& opponent, int attack_property); //攻防项计算
-	float critical_check(property& opponent); //攻击暴击运算
-public:
-	
 	int brightness; //灵光
 	float live; //剩余生命
 	buff shield; //护盾
