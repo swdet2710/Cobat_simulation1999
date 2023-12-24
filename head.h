@@ -10,7 +10,7 @@ using namespace std;
 #define Orgin 2 //本源
 #define Realistic 1 //现实
 #define Mental 0 //精神
-#define Sum_property 20 //属性数量
+#define Sum_property 19 //属性数量-1
 
 //#define Tree 0 //木
 //#define Animal 1 //兽
@@ -74,9 +74,9 @@ typedef struct __property {
 }property;
 
 union fproperty {
-	property fpropertys;
-	float p[Sum_property];
-	fproperty(property __fproperty) { fpropertys = __fproperty; };
+	property *fpropertys;
+	float *p;
+	fproperty(property* __fproperty) { fpropertys = __fproperty; p = &(__fproperty->attack); };
 };
 
 enum class onset{Not,Begin,After};
