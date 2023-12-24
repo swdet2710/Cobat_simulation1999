@@ -34,17 +34,20 @@ int NPC::combat_readiness()
 int NPC::load_property()
 {
 	ifstream files;
-	
+	int j;
 	files.open(name);
 	if (!files.is_open())
 	{
 		cout << "未找到该文件" << endl;
 		return 1;
 	}
-	fproperty t(init_npc_propertys);
+	fproperty t(&init_npc_propertys);
+	files >> j;
+	init_npc_propertys.npc_property = fnpc_propertys(j);
 	for (int i = 0; i < Sum_property; i++)
 		files >> t.p[i];
 	files.close();
+	cout << t.fpropertys->attack;
 	return 0;
 }
 
@@ -52,12 +55,12 @@ void NPC::buff_to_property()
 {
 	buff* before, * now;
 	npc_propertys = init_npc_propertys;
-	fproperty k(npc_propertys);
+	fproperty k(&npc_propertys);
 	for (now = bufflist_attack, before = NULL; now != NULL; now = now->next)
 	{
 		if (now->propertys)
 		{
-			k.p[now->propertys] = (k.p[now->propertys] + now->result) * now->s_result;
+			k.p[now->propertys-1] = (k.p[now->propertys - 1] + now->result) * now->s_result;
 		}
 	}
 
@@ -65,7 +68,7 @@ void NPC::buff_to_property()
 	{
 		if (now->propertys)
 		{
-			k.p[now->propertys] = (k.p[now->propertys] + now->result) * now->s_result;
+			k.p[now->propertys - 1] = (k.p[now->propertys - 1] + now->result) * now->s_result;
 		}
 	}
 
@@ -73,12 +76,12 @@ void NPC::buff_to_property()
 	{
 		if (now->propertys)
 		{
-			k.p[now->propertys] = (k.p[now->propertys] + now->result) * now->s_result;
+			k.p[now->propertys - 1] = (k.p[now->propertys - 1] + now->result) * now->s_result;
 		}
 	}
 }
 
-void NPC::use_to_attack(NPC self, NPC* opponent,void (*p)(),int sum_of_opponent=1)
+void NPC::use_to_attack(NPC self, NPC* opponent,void (*p)(),int sum_of_opponent)
 {
 	npc_attack = &self;
 	npc_beattack = opponent;
