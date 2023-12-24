@@ -1,4 +1,8 @@
+#pragma once
 
+#include <array>
+
+#include "card.h"
 #include "head.h"
 
 class NPC
@@ -46,6 +50,11 @@ public:
 	buff *bufflist_timepass = NULL; //回合buff
 	buff* bufflist_byattack = NULL; //受到攻击后buff
 	buff* bufflist_attack = NULL; //攻击后buff
+
+	std::array<CardBase*, 3> skills; // 技能组，0 1为一二技能，2为大招
+
+	std::string get_name() const { return name; }
+	void set_skills(std::array<CardBase*, 3> _skills) { skills = _skills; }
 
 	int combat_readiness(); //游戏开始初始化
 

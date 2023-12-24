@@ -1,4 +1,3 @@
-#pragma once
 #include "head.h"
 void* npc_attack = NULL; //攻击者
 void* npc_beattack = NULL; //受攻击者

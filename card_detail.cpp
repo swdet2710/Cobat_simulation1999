@@ -4,7 +4,7 @@
 
 void SixOne::use(World& world, NPC& user, NPC& main_t)
 {
-    std::cout << user.name << " use " << name << " on " << main_t.name << std::endl;
+    std::cout << user.get_name() << " use " << name << " on " << main_t.get_name() << std::endl;
     // if(!world.is_alive(&main_t)) {
     //     // TODO
     // }
@@ -25,7 +25,7 @@ void SixOne::use(World& world, NPC& user, NPC& main_t)
 
 void SixTwo::use(World& world, NPC& user, NPC& main_t)
 {
-    std::cout << user.name << " use " << name << " on " << main_t.name << std::endl;
+    std::cout << user.get_name() << " use " << name << " on " << main_t.get_name() << std::endl;
     // if(!world.is_alive(&main_t)) {
     //     // TODO
     // }
@@ -41,6 +41,6 @@ void SixTwo::use(World& world, NPC& user, NPC& main_t)
 
 void SixRitual::use(World& world, NPC& user, NPC& main_t)
 {
-    std::cout << user.name << " use " << name << " on " << main_t.name << std::endl;
+    std::cout << user.get_name() << " use " << name << " on " << main_t.get_name() << std::endl;
     // TODO
 }

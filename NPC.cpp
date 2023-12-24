@@ -78,7 +78,7 @@ void NPC::buff_to_property()
 	}
 }
 
-void NPC::use_to_attack(NPC self, NPC* opponent,void (*p)(),int sum_of_opponent=1)
+void NPC::use_to_attack(NPC self, NPC* opponent,void (*p)(),int sum_of_opponent)
 {
 	npc_attack = &self;
 	npc_beattack = opponent;
