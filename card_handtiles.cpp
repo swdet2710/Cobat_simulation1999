@@ -1,5 +1,5 @@
-#include "card_handtiles.h"
-#include "temp.h"
+﻿#include "card_handtiles.h"
+#include "World.h"
 
 CardBase* HandTiles::request_card()
 {
@@ -8,7 +8,7 @@ CardBase* HandTiles::request_card()
 
 int HandTiles::choose(int index, NPC *main_t)
 {
-    if(chosen.size() >= world.friends.size()) {
+    if(chosen.size() >= world.my_world.size()) {
         return -2;
     }
     if(index < 0 || index >= tiles.size()) {

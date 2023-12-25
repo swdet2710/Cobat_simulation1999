@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "head.h"
 
@@ -22,6 +22,8 @@ protected:
     string name, short_name; // 卡牌名称，简称
     int level; // 阶数，有特殊合成效果的卡为0，大招等不可合成的卡为3
     CardType type;
+    NPC * main_t; //卡牌的主要目标
+    NPC * owner = NULL; //卡牌拥有者
 public:
     int get_id() { return id; }
     string get_name() { return name; }
@@ -37,5 +39,5 @@ public:
     virtual ~CardBase() = default;
     virtual CardBase* clone() = 0; // 用于备份手牌状态
 
-    virtual void use(World& world, NPC& user, NPC& main_t) = 0; // 定向Buff卡的主目标main_t为友方
+    virtual void use(World& world, NPC& user, NPC& main_t) = 0; //定向Buff卡的主目标main_t为友方
 };

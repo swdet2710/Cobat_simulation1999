@@ -1,7 +1,4 @@
-#pragma once
-
-#include <vector>
-#include <sstream>
+﻿#pragma once
 
 #include "card.h"
 
@@ -67,6 +64,7 @@ public:
     void check_passion() // 处理激情与仪式
     {
         // TODO
+
     }
 
     void draw() // 抽牌

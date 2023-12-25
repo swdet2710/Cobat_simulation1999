@@ -1,8 +1,11 @@
-#pragma once
+﻿#pragma once
 
 #include<iostream>
 #include<random>
 #include <fstream>
+#include <array>
+#include <vector>
+#include <sstream>
 using namespace std;
 
 #define Technique 1 //术法
@@ -24,7 +27,7 @@ extern void* npc_attack; //攻击者
 extern void* npc_beattack; //受攻击者
 extern random_device rd;
 extern minstd_rand0 get_randomss;//初始化随机数
-
+class World;
 
 typedef struct __property {
 	fnpc_propertys npc_property = Quick; //角色系 0

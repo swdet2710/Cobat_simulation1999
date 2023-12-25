@@ -1,6 +1,6 @@
-#pragma once
+﻿#pragma once
 
-#include <array>
+
 
 #include "card.h"
 #include "head.h"
