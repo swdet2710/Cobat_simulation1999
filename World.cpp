@@ -1,62 +1,82 @@
-#include "World.h"
+﻿#include "World.h"
 
 void World::add_NPC(NPC*npc)
 {
     my_world.push_back(npc);
-    time_npc++;
+    //time_npc++;
+    npc->world = this;
 }
 
-int World::combat_readiness()
+void World::combat_readiness()
 {
-    vector<NPC*>::iterator f = my_world.begin();
-    do
+
+    std::vector<NPC*>::iterator f = my_world.begin();
+    while (f != my_world.end())
     {
         (*f)->combat_readiness();
         f++;
-    } while (f != my_world.end());
-    return 0;
+    } 
 }
 
 void World::by_timepass()
 {
-    vector<NPC*>::iterator f = my_world.begin();
-    do
+    std::vector<NPC*>::iterator f = my_world.begin();
+    while (f != my_world.end())
     {
+        
         (*f)->by_timepass();
         f++;
-    } while (f != my_world.end());
-
+        
+    } 
     f = my_world.begin();
-    do
+
+    while (f != my_world.end())
     {
-        (*f)->by_timepass();
+        
         if ((*f)->live <= 0)
         {
-            move(f);
+            std::cout << (*f)->get_name() << "已经阵亡\n";
+            my_world.erase(f);
             f = my_world.begin();
             continue;
         }
         f++;
-    } while (f != my_world.end());
+    } 
+    
 }
 
 void World::by_timebegin()
 {
-    vector<NPC*>::iterator f = my_world.begin();
-    do
+    std::vector<NPC*>::iterator f = my_world.begin();
+    
+    while (f != my_world.end())
     {
         (*f)->by_timebegin();
         f++;
-    } while (f != my_world.end());
+    } 
 }
 
-void World::init(World self)
+void World::init()
 {
-    handtiles = new HandTiles(self,time_npc);
+    handtiles = new HandTiles(*this,max_npc);
+    combat_readiness();
 }
 
 CardBase* World::request_card()
 {
     NPC* user = my_world[get_randomss() % my_world.size()];
     return user->skills[get_randomss() % (user->skills.size() - 1)]->clone(); // 除去大招
+}
+
+NPC* World::select_sub_target(World*enemies,NPC* main_t)
+{
+    if (enemies->my_world.size() <= 1) {
+        return nullptr;
+    }
+    while (true) {
+        int index = rand() % enemies->my_world.size();
+        if (enemies->my_world[index] != main_t) {
+            return enemies->my_world[index];
+        }
+    }
 }

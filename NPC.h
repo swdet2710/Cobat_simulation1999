@@ -1,14 +1,11 @@
 ﻿#pragma once
-
-
-
 #include "card.h"
 #include "head.h"
 
 class NPC
 {
 private:
-	string name;
+	std::string name;
 	property init_npc_propertys; //初始角色属性
 	int load_property(); //从文件载入角色信息
 	
@@ -17,7 +14,7 @@ private:
 	float attacks(float attack, property& opponent, int attack_property); //攻防项计算
 	float critical_check(property& opponent); //攻击暴击运算
 public:
-	NPC(string names) {
+	NPC(std::string names) {
 		name = names;
 		load_property();
 	}
@@ -45,6 +42,7 @@ public:
 	int brightness; //灵光
 	float live; //剩余生命
 	buff shield; //护盾
+	World* world=nullptr;//阵营
 	
 	property npc_propertys; //每回合时角色属性
 	buff *bufflist_timepass = NULL; //回合buff
@@ -60,7 +58,7 @@ public:
 
 	void buff_to_property(); //刷新属性
 
-	void use_to_attack(NPC self, NPC* opponent, void (*p)(), int sum_of_opponent = 1); //攻击时调用
+	void use_to_attack(NPC* opponent, void (*p)(), int sum_of_opponent = 1); //攻击时调用
 
 	void by_timepass(); //回合结束时触发
 	void by_attack(); //受到攻击时触发

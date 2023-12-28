@@ -1,10 +1,11 @@
 ﻿#pragma once
 
 #include "card.h"
+#include "World.h"
 
 class HandTiles
 {
-    World& world;
+    World&world;
     std::vector<std::pair<CardBase*, NPC*>> chosen; // 已选中的手牌
     std::vector<CardBase*> tiles;
     int max_size; // 手牌上限，用于决定是否抽牌，实际上有时tiles.size()会超过这个值

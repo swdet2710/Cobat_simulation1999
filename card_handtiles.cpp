@@ -1,5 +1,5 @@
 ﻿#include "card_handtiles.h"
-#include "World.h"
+
 
 CardBase* HandTiles::request_card()
 {
@@ -17,7 +17,7 @@ int HandTiles::choose(int index, NPC *main_t)
     chosen.emplace_back(tiles[index], main_t);
     tiles.erase(tiles.begin() + index);
     check_merge(index - 1);
-    return chosen.size();
+    return int(chosen.size());
 }
 
 std::string HandTiles::summary()
@@ -60,7 +60,8 @@ void HandTiles::check_merge(int index)
         }
     } else if(level2 == 0) { // 特殊合成
         switch(tiles[index+1]->get_id()) {
-        // case ??: // 律的调校
+            case 01 : // 律的调校
+                break;
         //     if(level1 == 1) {
         //         break;
         //     } else {

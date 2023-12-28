@@ -1,12 +1,12 @@
 ﻿
 #include "NPC.h"
-#include "head.h"
+
 
 int NPC::combat_readiness()
 {
 	buff* next;
 	brightness = 0;
-	live = npc_propertys.life;
+	live = init_npc_propertys.life;
 	shield.sum = 0;
 	if (bufflist_timepass != NULL)
 		for (buff* i = bufflist_timepass; i != NULL; i = next)
@@ -34,13 +34,13 @@ int NPC::combat_readiness()
 
 int NPC::load_property()
 {
-	ifstream files;
+	std::ifstream files;
 	int j;
 	
 	files.open(name + ".txt");
 	if (!files.is_open())
 	{
-		cout << "未找到文件: " << name << endl;
+		std::cout << "未找到文件: " << name << std::endl;
 		return 1;
 	}
 	fproperty t(&init_npc_propertys);
@@ -49,7 +49,7 @@ int NPC::load_property()
 	for (int i = 0; i < Sum_property; i++)
 		files >> t.p[i];
 	files.close();
-	std::cout << "NPC " << name << " 载入成功, 攻击力: " << npc_propertys.attack << std::endl;
+	std::cout << "NPC " << name << " 载入成功, 攻击力: " << init_npc_propertys.attack << std::endl;
 	return 0;
 }
 
@@ -73,7 +73,6 @@ void NPC::buff_to_property()
 			k.p[now->propertys - 1] = (k.p[now->propertys - 1] + now->result) * now->s_result;
 		}
 	}
-
 	for (now = bufflist_timepass, before = NULL; now != NULL; now = now->next)
 	{
 		if (now->propertys)
@@ -83,9 +82,9 @@ void NPC::buff_to_property()
 	}
 }
 
-void NPC::use_to_attack(NPC self, NPC* opponent,void (*p)(),int sum_of_opponent)
+void NPC::use_to_attack( NPC* opponent,void (*p)(),int sum_of_opponent)
 {
-	npc_attack = &self;
+	npc_attack = this;
 	npc_beattack = opponent;
 	p();
 	buff_attack();
@@ -96,104 +95,29 @@ void NPC::use_to_attack(NPC self, NPC* opponent,void (*p)(),int sum_of_opponent)
 
 void NPC::by_attack()
 {
-	buff* before, * now;
-	for (now = bufflist_byattack, before = NULL; now != NULL; now = now->next)
-	{
-		if (now->p!=NULL)
-		{
-			now->p(now);
-			if (now->sum == 0)
-				remove_from_bufflist(now, before);
-		}
-	}
+	loop_bufflist_functions(bufflist_byattack);
 }
 
 void NPC::buff_attack()
 {
-	buff* before, * now;
-	
-	for (now = bufflist_attack, before = NULL; now != NULL; now = now->next)
-	{
-		if (now->p != NULL)
-		{
-			now->p(now);
-			if (now->sum == 0)
-				remove_from_bufflist(now, before);
-		}
-	}
+	loop_bufflist_functions(bufflist_byattack);
 }
 
 void NPC::by_timepass()
 {
-	buff *before,*now;
-	for (now = bufflist_timepass, before = NULL; now != NULL; now = now->next)
-	{
-		if(now->functions == onset::After)
-			if (now->p != NULL)
-			{
-				now->p(now);
-				if (now->sum == 0)
-					remove_from_bufflist(now, before);
-			}
-	}
-
-	for (now = bufflist_attack, before=NULL; now != NULL; now = now->next)
-	{
-		if (now->passby == onset::After)
-		{
-			now->sum--;
-			if (now->sum == 0)
-				remove_from_bufflist(now, before);
-		}
-		before = now;
-	}
-	for (now = bufflist_byattack, before = NULL; now != NULL; now = now->next)
-	{
-		if (now->passby == onset::After)
-		{
-			now->sum--;
-			if (now->sum == 0)
-				remove_from_bufflist(now, before);
-		}
-		before = now;
-	}
-	for (now = bufflist_timepass, before = NULL; now != NULL; now = now->next)
-	{
-		if (now->passby == onset::After)
-		{
-			now->sum--;
-			if (now->sum == 0)
-				remove_from_bufflist(now, before);
-		}
-		before = now;
-	}
-
+	loop_bufflist_functions(bufflist_timepass,onset::After);
+	loop_bufflist(bufflist_attack, onset::After);
+	loop_bufflist(bufflist_byattack, onset::After);
+	loop_bufflist(bufflist_timepass, onset::After);
 }
 
 void NPC::by_timebegin()
 {
-	buff* before, * now;
+	loop_bufflist(bufflist_attack, onset::Begin);
+	loop_bufflist(bufflist_byattack, onset::Begin);
+	loop_bufflist(bufflist_timepass, onset::Begin);
+	loop_bufflist_functions(bufflist_timepass, onset::Begin);
 	buff_to_property();
-	for (now = bufflist_attack, before = NULL; now != NULL; now = now->next)
-	{
-		if (now->passby == onset::Begin)
-		{
-			now->sum--;
-			if (now->sum == 0)
-				remove_from_bufflist(now, before);
-		}
-		before = now;
-	}
-	for (now = bufflist_timepass, before = NULL; now != NULL; now = now->next)
-	{
-		if (now->passby == onset::Begin)
-		{
-			now->sum--;
-			if (now->sum == 0)
-				remove_from_bufflist(now, before);
-		}
-		before = now;
-	}
 }
 
 float NPC::attacks(float attack, property& opponent, int attack_property)

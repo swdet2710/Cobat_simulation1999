@@ -6,7 +6,7 @@
 #include <array>
 #include <vector>
 #include <sstream>
-using namespace std;
+
 
 #define Technique 1 //术法
 #define Ritual 0 //仪式
@@ -23,11 +23,18 @@ using namespace std;
 //#define Wisdom 17 //智
 enum fnpc_propertys{ Tree, Animal, Stone, Star, Quick = 10, Wisdom };
 
+
 extern void* npc_attack; //攻击者
 extern void* npc_beattack; //受攻击者
-extern random_device rd;
-extern minstd_rand0 get_randomss;//初始化随机数
+extern std::random_device rd;
+extern std::minstd_rand0 get_randomss;//初始化随机数
+
+
 class World;
+class NPC;
+class Attack;
+class HandTiles;
+
 
 typedef struct __property {
 	fnpc_propertys npc_property = Quick; //角色系 0
@@ -82,7 +89,7 @@ union fproperty {
 	fproperty(property* __fproperty) { fpropertys = __fproperty; p = &(__fproperty->attack); };
 };
 
-enum class onset{Not,Begin,After};
+enum class onset{Not,Begin,After,Alawys}; //不发动，开始时发动，结束时发动，总是发动
 typedef struct __buff {
 	int sum = 0; //层数
 	int id = 0; //用于检索。
@@ -95,8 +102,10 @@ typedef struct __buff {
 	struct __buff* next = NULL;
 }buff;
 
-void remove_from_bufflist(buff* bufflist, buff* before_bufflist);
-void add_to_bufflist(buff*& bufflist, buff* buffself);
+void remove_from_bufflist(buff*& bufflist, buff* before_bufflist);  //从效果列表中移除（移除效果，移除效果前一位）
+void add_to_bufflist(buff*& bufflist, buff* buffself);				//添加效果到列表中（效果列表，添加效果）
+void loop_bufflist(buff*& bufflist,onset passby = onset::Alawys);	//遍历buff，对符合passby的效果sum减少一位
+void loop_bufflist_functions(buff*& bufflist, onset passby = onset::Alawys);//遍历buff，对符合passby的效果触发函数
 
 //typedef struct __card {
 //	string name; //卡牌名字
