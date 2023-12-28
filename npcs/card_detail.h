@@ -1,7 +1,7 @@
 ﻿#pragma once
 
-#include "card.h"
-
+#include "../card.h"
+#include "../World.h"
 // 6的技能组
 class SixOne: public CardBase
 {

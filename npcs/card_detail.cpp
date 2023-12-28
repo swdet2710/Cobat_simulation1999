@@ -1,5 +1,5 @@
 ﻿#include "card_detail.h"
-#include "../World.h"
+
 
 void SixOne::use(World& world, NPC& user, NPC& main_t)
 {
@@ -9,7 +9,8 @@ void SixOne::use(World& world, NPC& user, NPC& main_t)
     // }
 
     // 选择次要目标
-    NPC *sub_t = world.select_sub_target(&main_t);
+    
+    NPC *sub_t = world.select_sub_target(main_t.world ,&main_t);
 
     // 造成伤害 TODO
     // user.attack()

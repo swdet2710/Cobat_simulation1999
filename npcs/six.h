@@ -1,6 +1,6 @@
 #pragma once
 
-#include "NPC.h"
+#include "../NPC.h"
 #include "card_detail.h"
 
 class Six: public NPC
