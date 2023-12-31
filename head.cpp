@@ -2,6 +2,7 @@
 #include "head.h"
 void* npc_attack=nullptr; //攻击者
 void* npc_beattack=nullptr; //受攻击者
+void* card_using = nullptr;
 std::random_device rd;
 std::minstd_rand0 get_randomss(rd());//初始化随机数
 
@@ -41,6 +42,8 @@ void loop_bufflist_functions(buff*& bufflist, onset passby)
 			now = &(*now)->next;
 	}
 }
+
+
 
 
 void remove_from_bufflist(buff* &bufflist, buff* before_bufflist)

@@ -2,6 +2,7 @@
 #include "NPC.h"
 
 
+
 int NPC::combat_readiness()
 {
 	buff* next;

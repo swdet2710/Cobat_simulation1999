@@ -7,7 +7,8 @@ class HandTiles
 {
     World&world;
     std::vector<std::pair<CardBase*, NPC*>> chosen; // 已选中的手牌
-    std::vector<CardBase*> tiles;
+    std::vector<CardBase*> tiles;       //手牌列表
+    std::vector<CardBase*> waittings;   //预定手牌列表
     int max_size; // 手牌上限，用于决定是否抽牌，实际上有时tiles.size()会超过这个值
     CardBase* request_card(); // 抽一张新牌
     void clear()
@@ -32,6 +33,7 @@ public:
     int choose(int index, NPC *main_t); // 选择手牌
     std::string summary(); // 手牌概览
 
+    void flash_card(); //用于刷新卡牌成初始状态
     void set_max_size(int _max_size)
     {
         max_size = _max_size;

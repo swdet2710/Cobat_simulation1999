@@ -1,6 +1,18 @@
 ﻿#pragma once
 #include "card.h"
 #include "head.h"
+struct Passion
+{
+	int passion=0;
+	int max_passion = 5;
+	Passion operator+(int a)
+	{
+		passion += a;
+		if (passion > max_passion)
+			passion = max_passion;
+		return *this;
+	}
+};
 
 class NPC
 {
@@ -40,6 +52,7 @@ public:
 			}
 	}
 	int brightness; //灵光
+	int passion;	//激情
 	float live; //剩余生命
 	buff shield; //护盾
 	World* world=nullptr;//阵营

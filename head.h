@@ -26,6 +26,7 @@ enum fnpc_propertys{ Tree, Animal, Stone, Star, Quick = 10, Wisdom };
 
 extern void* npc_attack; //攻击者
 extern void* npc_beattack; //受攻击者
+extern void* card_using;//当前卡牌
 extern std::random_device rd;
 extern std::minstd_rand0 get_randomss;//初始化随机数
 
@@ -107,6 +108,7 @@ void add_to_bufflist(buff*& bufflist, buff* buffself);				//添加效果到列�
 void loop_bufflist(buff*& bufflist,onset passby = onset::Alawys);	//遍历buff，对符合passby的效果sum减少一位
 void loop_bufflist_functions(buff*& bufflist, onset passby = onset::Alawys);//遍历buff，对符合passby的效果触发函数
 
+void dead_check(World*world);
 //typedef struct __card {
 //	string name; //卡牌名字
 //	void (*p)(NPC); //卡牌效果指针

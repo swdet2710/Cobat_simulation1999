@@ -19,11 +19,14 @@ protected:
     int id;
     std::string name, short_name; // 卡牌名称，简称
     int level; // 阶数，有特殊合成效果的卡为0，大招等不可合成的卡为3
+    bool can_be_use = true;  //标记卡牌是否被无效
     CardType type;
     NPC * main_t=nullptr; //卡牌的主要目标
     NPC * owner = NULL; //卡牌拥有者
 public:
+    int UsingWay = 0; //0指代仅可对敌方使用，1代表仅可对己方，其它为任意
     int get_id() { return id; }
+    void set_use(bool t) { can_be_use = t; }
     std::string get_name() { return name; }
     std::string get_short_name() { return short_name; }
     int get_level() { return level; }
