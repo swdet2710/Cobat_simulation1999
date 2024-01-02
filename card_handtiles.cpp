@@ -1,4 +1,5 @@
 ﻿#include "card_handtiles.h"
+#include "World.h"
 
 
 CardBase* HandTiles::request_card()
