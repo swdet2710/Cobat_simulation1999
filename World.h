@@ -2,29 +2,29 @@
 #include "NPC.h"
 #include "card_handtiles.h"
 typedef struct __law {
-    int socre=0;    //·ÖÊı
-    int socreofway[4] = {0,0,0,0};      //¼Ó·Ö¹æÔò
-    CardBase* one =nullptr;    //ÂÉµÄĞ¡¼¼ÄÜ
-    CardBase* two = nullptr;   //ÂÉµÄ´ó¼¼ÄÜ
+    int socre=0;    //åˆ†æ•°
+    int socreofway[4] = {0,0,0,0};      //åŠ åˆ†è§„åˆ™
+    CardBase* one =nullptr;    //å¾‹çš„å°æŠ€èƒ½
+    CardBase* two = nullptr;   //å¾‹çš„å¤§æŠ€èƒ½
 }law;
 class World
 {
     void use_one_card();
 public:
-    std::vector<NPC*> my_world;  //ÎÒ·½¶ÓÎéÁĞ±í
-    HandTiles *handtiles = nullptr; //ÊÖÅÆ
-    World* enemie =nullptr;//µĞ·½
-    law* my_law = nullptr; //ÂÉ
-    buff* world_buff = nullptr;     //ÎÒ·½³¡¾°buff
-    int max_npc; //×î´óÉÏÕó½ÇÉ«£¬³ı´ËÖ®Íâ»¹ÓĞÌæ²¹
-    //int time_npc = 0; //ÊµÊ±½ÇÉ«ÊıÁ¿
-    void(*p)(World* self,World* enemies) = nullptr; //Ñ¡ÅÆº¯Êı
+    std::vector<NPC*> my_world;  //æˆ‘æ–¹é˜Ÿä¼åˆ—è¡¨
+    HandTiles *handtiles = nullptr; //æ‰‹ç‰Œ
+    World* enemie =nullptr;//æ•Œæ–¹
+    law* my_law = nullptr; //å¾‹
+    buff* world_buff = nullptr;     //æˆ‘æ–¹åœºæ™¯buff
+    int max_npc; //æœ€å¤§ä¸Šé˜µè§’è‰²ï¼Œé™¤æ­¤ä¹‹å¤–è¿˜æœ‰æ›¿è¡¥
+    //int time_npc = 0; //å®æ—¶è§’è‰²æ•°é‡
+    void(*p)(World* self,World* enemies) = nullptr; //é€‰ç‰Œå‡½æ•°
     //int round_cnt = 0;
-    void add_NPC(NPC*); //Ìí¼Ó½ÇÉ«
-    void combat_readiness(); //ÓÎÏ·¿ªÊ¼³õÊ¼»¯
-    void by_timepass(); //»ØºÏ½áÊøÊ±´¥·¢
-    void by_timebegin(); //»ØºÏ¿ªÊ¼Ê±ÅĞ¶¨
-    NPC* select_sub_target(World*enemies,NPC* main_t);//Éè¶¨¶îÍâÄ¿±ê
+    void add_NPC(NPC*); //æ·»åŠ è§’è‰²
+    void combat_readiness(); //æ¸¸æˆå¼€å§‹åˆå§‹åŒ–
+    void by_timepass(); //å›åˆç»“æŸæ—¶è§¦å‘
+    void by_timebegin(); //å›åˆå¼€å§‹æ—¶åˆ¤å®š
+    NPC* select_sub_target(World*enemies,NPC* main_t);//è®¾å®šé¢å¤–ç›®æ ‡
     World(int max_npcs) {
         max_npc = max_npcs;
         

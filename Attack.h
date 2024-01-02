@@ -3,12 +3,12 @@
 class Attack
 {
 public:
-	int attack_propertys_mr=Mental; //¹¥»÷ÊôĞÔ1(ÏÖÊµ¡¢¾«Éñ¡¢±¾Ô´)
-	int attack_propertys_rt= Ritual;  //¹¥»÷ÊôĞÔ2(ÒÇÊ½¡¢Êõ·¨)
-	int attack_card = 0;		  //ÉËº¦Ô´¿¨µÄÖÖÀà
-	int attack = 1;				 //ÉËº¦
-	NPC* come_from=nullptr;//ÉËº¦À´Ô´
-	std::vector<NPC*> come_to; //×÷ÓÃÕß
+	int attack_propertys_mr=Mental; //æ”»å‡»å±æ€§1(ç°å®ã€ç²¾ç¥ã€æœ¬æº)
+	int attack_propertys_rt= Ritual;  //æ”»å‡»å±æ€§2(ä»ªå¼ã€æœ¯æ³•)
+	int attack_card = 0;		  //ä¼¤å®³æºå¡çš„ç§ç±»
+	int attack = 1;				 //ä¼¤å®³
+	NPC* come_from=nullptr;//ä¼¤å®³æ¥æº
+	std::vector<NPC*> come_to; //ä½œç”¨è€…
 	Attack() { std::vector<NPC*> come_to; };
 
 };

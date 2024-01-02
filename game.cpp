@@ -21,12 +21,12 @@ void runs()
 	one.init(human_card);
 	two.init(human_card);
 	
-	//add_to_bufflist(six1.bufflist_timepass, gettestbuff(i++)); //测试角色回合buff是否正常
-	//add_to_bufflist(six1.bufflist_timepass, t); //测试角色回合buff是否正常
+	//add_to_bufflist(six1.bufflist_timepass, gettestbuff(i++)); //娴嬭瘯瑙掕壊鍥炲悎buff鏄惁姝ｅ父
+	//add_to_bufflist(six1.bufflist_timepass, t); //娴嬭瘯瑙掕壊鍥炲悎buff鏄惁姝ｅ父
 	
 	while (one.my_world.size() && two.my_world.size())
 	{
-		//six1.live = 0;  //测试角色阵亡是否有效
+		//six1.live = 0;  //娴嬭瘯瑙掕壊闃典骸鏄惁鏈夋晥
 		one.by_timebegin();
 		two.by_timebegin();
 		one.p(&one, &two);

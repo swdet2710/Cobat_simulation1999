@@ -6,19 +6,19 @@
 void human_card(World* self, World* enemies) {
 std::vector<NPC*>::iterator f = self->my_world.begin();
 int i = 0, change = 1,choose;
-std::cout << "ÎÒ·½½ÇÉ«ÁÐ±í£º";
+std::cout << "æˆ‘æ–¹è§’è‰²åˆ—è¡¨ï¼š";
 while (f != self->my_world.end())
 {
 	std::cout << i << "-" << (*f)->get_name() << "  ";
 	f++; i++;
 }
-std::cout << "\nµÐ·½½ÇÉ«ÁÐ±í£º";
+std::cout << "\næ•Œæ–¹è§’è‰²åˆ—è¡¨ï¼š";
 f = enemies->my_world.begin();
 while (f != enemies->my_world.end())
 {
 	std::cout << i << "-" << (*f)->get_name() << "  ";
 	f++; i++;
 }
-std::cout << "\nÊÖÅÆ¸ÅÀÀ£º" << self->handtiles->summary() << std::endl;
+std::cout << "\næ‰‹ç‰Œæ¦‚è§ˆï¼š" << self->handtiles->summary() << std::endl;
 std::cin >> choose;
 }
