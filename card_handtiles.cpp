@@ -59,8 +59,8 @@ void HandTiles::check_merge(int index)
         if(level1 != level2) { // 阶数不同不可合成
             return;
         }
-    } else if(level2 == 0) { // 特殊合成
-        switch(tiles[index+1]->get_id()) {
+    } else if(level1 == 0) { // 特殊合成
+        switch(tiles[index]->get_id()) {
             case 01 : // 律的调校
                 break;
         //     if(level1 == 1) {
@@ -78,7 +78,7 @@ void HandTiles::check_merge(int index)
     }
 
     // 可合成
-    tiles[index]->set_level(level1+1);
-    delete tiles[index+1]; tiles.erase(tiles.begin() + index + 1);
+    tiles[index+1]->set_level(level2+1);
+    delete tiles[index]; tiles.erase(tiles.begin() + index);
     check_merge(index);
 }
