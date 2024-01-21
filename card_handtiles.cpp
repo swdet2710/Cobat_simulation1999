@@ -81,4 +81,5 @@ void HandTiles::check_merge(int index)
     tiles[index+1]->set_level(level2+1);
     delete tiles[index]; tiles.erase(tiles.begin() + index);
     check_merge(index);
+    check_merge(index-1);
 }
