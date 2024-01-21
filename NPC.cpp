@@ -1,6 +1,9 @@
 ﻿
 #include "NPC.h"
+#include "head.h"
+#include "toml/parser.hpp"
 
+#include <toml.hpp>
 
 
 int NPC::combat_readiness()
@@ -35,21 +38,30 @@ int NPC::combat_readiness()
 
 int NPC::load_property()
 {
-	std::ifstream files;
-	int j;
-	
-	files.open(name + ".txt");
-	if (!files.is_open())
-	{
-		std::cout << "未找到文件: " << name << std::endl;
-		return 1;
-	}
-	fproperty t(&init_npc_propertys);
-	files >> j;
-	init_npc_propertys.npc_property = fnpc_propertys(j);
-	for (int i = 0; i < Sum_property; i++)
-		files >> t.p[i];
-	files.close();
+	auto data = toml::parse("data/NPC/" + name + ".toml"); // may throw
+
+	auto &inp = init_npc_propertys;
+	inp.npc_property = (fnpc_propertys)data["type"].as_integer();
+	inp.attack = data["attack"].as_integer();
+	inp.life = data["life"].as_integer();
+	inp.realistic_defense = data["realistic_defense"].as_integer();
+	inp.mental_defense = data["mental_defense"].as_integer();
+	inp.penetration_rate = data["penetration_rate"].as_integer();
+	inp.critical_chance = data["critical_chance"].as_floating();
+	inp.crit_damage = data["crit_damage"].as_floating();
+	inp.crit_resist_rate = data["crit_resist_rate"].as_floating();
+	inp.crit_defense = data["crit_defense"].as_floating();
+	inp.trauma_addition = data["trauma_addition"].as_integer();
+	inp.trauma_relief = data["trauma_relief"].as_integer();
+	inp.power_technique = data["power_technique"].as_integer();
+	inp.power_ritual = data["power_ritual"].as_integer();
+	inp.treatment_rate = data["treatment_rate"].as_integer();
+	inp.untreatment_rate = data["untreatment_rate"].as_integer();
+	inp.leech_rate = data["leech_rate"].as_integer();
+	inp.trauma_recovery = data["trauma_recovery"].as_integer();
+	inp.power_origin = data["power_origin"].as_integer();
+	inp.coefficient = data["coefficient"].as_integer();
+
 	std::cout << "NPC " << name << " 载入成功, 攻击力: " << init_npc_propertys.attack << std::endl;
 	return 0;
 }
@@ -167,7 +179,7 @@ float NPC::atack(float attack, float scale, property& opponenty,int attack_prope
 	switch (attack_way)
 	{
 	case Orgin:
-		return f * npc_propertys.power_orgin;
+		return f * npc_propertys.power_origin;
 	case Ritual:
 		return f * npc_propertys.power_ritual;
 	case Technique:

@@ -56,7 +56,7 @@ typedef struct __property {
 	float untreatment_rate = 0; //减疗率 15
 	float leech_rate = 0; //吸血率 16
 	float trauma_recovery = 0; //受创回复 17
-	float power_orgin = 0; //本源伤害加成 18
+	float power_origin = 0; //本源伤害加成 18
 	float coefficient = 1; //比例系数 19
 	/*struct __property copy()
 	{
