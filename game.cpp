@@ -18,19 +18,23 @@ void runs()
 	one.add_NPC(&six1);
 	two.add_NPC(&six2);
 
-	one.init(human_card);
-	two.init(human_card);
+	one.init(human_card_gui);
+	two.init(human_card_gui);
 	
 	//add_to_bufflist(six1.bufflist_timepass, gettestbuff(i++)); //测试角色回合buff是否正常
 	//add_to_bufflist(six1.bufflist_timepass, t); //测试角色回合buff是否正常
 	
 	while (one.my_world.size() && two.my_world.size())
 	{
+		// draw cards
+		one.handtiles->draw();
+		two.handtiles->draw();
+
 		//six1.live = 0;  //测试角色阵亡是否有效
 		one.by_timebegin();
 		two.by_timebegin();
 		one.p(&one, &two);
-		two.p(&two, &one);
+		// two.p(&two, &one);
 		//if (six1.npc_propertys.attack != 251)
 		//	std::cout << six1.npc_propertys.attack<< '\n';
 		//else

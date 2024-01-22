@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "card.h"
+#include <algorithm>
 
 class HandTiles
 {
@@ -8,7 +9,7 @@ class HandTiles
     std::vector<std::pair<CardBase*, NPC*>> chosen; // 已选中的手牌
     std::vector<CardBase*> tiles;       //手牌列表
     std::vector<CardBase*> waittings;   //预定手牌列表
-    int max_size; // 手牌上限，用于决定是否抽牌，实际上有时tiles.size()会超过这个值
+    int max_tiles_num; // 手牌上限，用于决定是否抽牌，实际上有时tiles.size()会超过这个值
     CardBase* request_card(); // 抽一张新牌
     void clear()
     {
@@ -24,8 +25,8 @@ class HandTiles
     void check_merge(int index); // 检查并合成(index, index+1)处可合成的牌，可能会递归
 
 public:
-    HandTiles(World &_world, int _max_size)
-    : world(_world), max_size(_max_size)
+    HandTiles(World &_world, int _max_tiles_num)
+    : world(_world), max_tiles_num(_max_tiles_num)
     { }
     ~HandTiles() { clear(); }
 
@@ -33,9 +34,9 @@ public:
     std::string summary(); // 手牌概览
 
     void flash_card(); //用于刷新卡牌成初始状态
-    void set_max_size(int _max_size)
+    void set_max_tiles_num(int _max_tiles_num)
     {
-        max_size = _max_size;
+        max_tiles_num = _max_tiles_num;
     }
     void reset(std::vector<CardBase*> _tiles)
     {
@@ -72,9 +73,24 @@ public:
     void draw() // 抽牌
     {
         check_passion();
-        while(tiles.size() < max_size) {
-            tiles.insert(tiles.begin(), request_card());
-            check_merge(0);
+        while(tiles.size() < max_tiles_num) {
+            tiles.push_back(request_card());
+            check_merge(tiles.size()-2);
         }
+    }
+
+    template<typename Container>
+    void dump_tiles(Container &tiles, Container &levels) // 用于导出手牌状态
+    {
+        tiles.resize(this->tiles.size());
+        std::transform(
+            this->tiles.begin(), this->tiles.end(), tiles.begin(),
+            [](CardBase *tile) { return tile->get_id(); }
+        );
+        levels.resize(this->tiles.size());
+        std::transform(
+            this->tiles.begin(), this->tiles.end(), levels.begin(),
+            [](CardBase *tile) { return tile->get_level(); }
+        );
     }
 };
